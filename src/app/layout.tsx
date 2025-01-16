@@ -1,5 +1,5 @@
-import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import type { Metadata } from 'next';
 import './globals.css';
 
 const geistSans = Geist({
@@ -21,16 +21,12 @@ export const metadata: Metadata = {
   'Anonymous Messaging | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15',
 };
 
-export default function RootLayout({
- children,
-}: Readonly<{
- children: React.ReactNode;
-}>) {
- return (
-  <html lang="en" className="dark">
-   <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-    {children}
-   </body>
-  </html>
- );
+export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+  return (
+    <html lang="en" className="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
+      </body>
+    </html>
+  );
 }
