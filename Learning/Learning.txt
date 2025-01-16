@@ -1,0 +1,21 @@
+connection.isConnected = db.connections[0].readyState;  
+readyState and edge time running enviorment 
+
+
+what and why zod 
+
+
+error in html template 
+The error you're seeing occurs because EmailTemplate is a React component, which is treated as a value in TypeScript, but you're trying to use it as a type. This is causing TypeScript to throw an error.
+
+Explanation:
+In TypeScript, types and values are different things. When you define a React component, like EmailTemplate, it is a function or JSX element, and thus it is a value.
+When you use EmailTemplate in your function parameters or type declarations, TypeScript expects you to treat it as a value or a function, but not as a type.
+The error message:
+
+plaintext
+Copy
+Edit
+'EmailTemplate' refers to a value, but is being used as a type here. Did you mean 'typeof EmailTemplate'?
+This suggests that you’re trying to use EmailTemplate as a type when it is actually a React component. In TypeScript, you can only pass the type of a React component by using typeof EmailTemplate.
+
