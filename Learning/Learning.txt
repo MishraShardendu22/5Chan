@@ -19,3 +19,5 @@ Edit
 'EmailTemplate' refers to a value, but is being used as a type here. Did you mean 'typeof EmailTemplate'?
 This suggests that you’re trying to use EmailTemplate as a type when it is actually a React component. In TypeScript, you can only pass the type of a React component by using typeof EmailTemplate.
 
+next auth 
+jwt and session overloading 

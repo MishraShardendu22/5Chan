@@ -1,11 +1,11 @@
 import React from 'react'
 
-const page = () => {
+const NotFound = () => {
   return (
     <div>
-      sign-up
+      ok
     </div>
   )
 }
 
-export default page
+export default NotFound

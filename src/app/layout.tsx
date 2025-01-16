@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
  title: {
-  template: '%s | 5Chan',
-  default: '5Chan - Application made By Shardendu Mishra',
+  template: '%s | 5-Chan',
+  default: '5-Chan - Application Made By Shardendu Mishra',
  },
  description:
   'Anonymous Messaging | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15',
