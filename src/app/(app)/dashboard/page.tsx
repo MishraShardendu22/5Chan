@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
+import dayjs from "dayjs";
 
 interface Message {
   _id: string;
   content: string;
+  createdAt: string;
 }
 
 const Page = () => {
@@ -59,16 +61,6 @@ const Page = () => {
         title: "Error",
         description: "Failed to fetch accept status.",
         variant: "destructive",
-      });
-    }
-  };
-
-  const handleDelete = (id: string) => {
-    if (messages) {
-      setMessages(messages.filter((message) => message._id !== id));
-      toast({
-        title: "Success",
-        description: "Message deleted successfully.",
       });
     }
   };
@@ -130,7 +122,9 @@ const Page = () => {
             {messages.map((message) => (
               <div key={message._id}>
                 <p>{message.content}</p>
-                <button onClick={() => handleDelete(message._id)}>Delete</button>
+                <div>
+                  {dayjs(message?.createdAt).format('MMM D, YYYY h:mm A')}
+                </div>
               </div>
             ))}
           </div>

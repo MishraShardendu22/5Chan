@@ -6,6 +6,7 @@ const Page = () => {
 
   return (
     <div>
+
       <main className="container mx-auto p-4 md:p-6">
         <h1 className="text-4xl font-bold text-center">Welcome to 5Chan</h1>
         <p className="text-center mt-4">

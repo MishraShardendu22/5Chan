@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { Delete } from 'lucide-react';
 import React from 'react';
 import dayjs from 'dayjs';
 
@@ -12,16 +10,16 @@ interface MessageBoxProps {
   onMessageDelete: (id: string) => void;
 }
 
-const MessageBox: React.FC<MessageBoxProps> = ({ message, onMessageDelete }) => {
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`/api/delete-message/${message?._id}`);
-      onMessageDelete(message._id);
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete the message. Please try again.');
-    }
-  };
+const MessageBox: React.FC<MessageBoxProps> = ({ message }) => {
+  // const handleDelete = async () => {
+  //   try {
+  //     await axios.delete(`/api/delete-message/${message?._id}`);
+  //     onMessageDelete(message._id);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert('Failed to delete the message. Please try again.');
+  //   }
+  // };
 
   return (
     <div className="flex items-start justify-between p-4 bg-gray-100 rounded-md shadow-md">
@@ -31,12 +29,12 @@ const MessageBox: React.FC<MessageBoxProps> = ({ message, onMessageDelete }) => 
           {dayjs(message?.createdAt).format('MMM D, YYYY h:mm A')}
         </p>
       </div>
-      <button
+      {/* <button
         onClick={handleDelete}
         className="ml-4 text-red-500 hover:text-red-700 transition-colors"
       >
         <Delete />
-      </button>
+      </button> */}
     </div>
   );
 };

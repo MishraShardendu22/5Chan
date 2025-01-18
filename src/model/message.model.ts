@@ -1,11 +1,11 @@
-import mongoose, { Schema,Document, Model } from 'mongoose';
+import { Schema,Document } from 'mongoose';
 
 export interface Message extends Document {
     content: string;
     createdAt: Date;
 }
 
-const MessageSchema: Schema = new Schema(
+export const MessageSchema: Schema = new Schema(
     {
         content: {
             type: String,
@@ -21,6 +21,3 @@ const MessageSchema: Schema = new Schema(
         timestamps: true,
     }
 )
-
-const MessageModel: Model<Message> = mongoose.models.Message || mongoose.model<Message>('Message', MessageSchema);
-export default MessageModel

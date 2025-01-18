@@ -36,14 +36,14 @@ const MessagingPage = () => {
   }
 
   const sendMessage = async () => {
-    if (!messageSent.trim()) return;
-
     setLoading(true);
     try {
-      await axios.post(`/api/send-message`, {
+      console.log("CP-1")
+      await axios.post('/api/send-message', {
         username,
-        message: messageSent,
+        content: messageSent,
       });
+      console.log("CP-2")
       setMessageSent("");
       alert("Message sent successfully!");
     } catch (err) {
