@@ -26,11 +26,17 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (data: any) => {
+    // Log the form data to make sure it's correct
+    console.log('Form data:', data);
+
     const result = await signIn('credentials', {
       redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
+
+    // Log the result of the sign-in attempt
+    console.log('Sign-in result:', result);
 
     if (result?.error) {
       alert('Login Failed: Incorrect username or password');
