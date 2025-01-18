@@ -46,3 +46,10 @@ const NotFound = () => {
 };
 
 export default NotFound;
+
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Wrong Turn",
+  description: '5Chan | Misguided ? Yea expected !',
+ };
