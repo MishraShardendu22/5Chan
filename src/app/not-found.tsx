@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { FileQuestion, Home, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -44,10 +45,3 @@ const NotFound = () => {
 };
 
 export default NotFound;
-
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: "Wrong Turn",
-  description: '5Chan | Misguided ? Yea expected !',
- };
