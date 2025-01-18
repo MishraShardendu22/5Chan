@@ -18,10 +18,5 @@ export const messages = [
         "id": 4,
         "content": "I think the earth is flat",
         "createdAt": "2021-07-01T12:00:00Z"
-    },
-    {
-        "id": 5,
-        "content": "I think the earth is a cube",
-        "createdAt": "2021-07-01T12:00:00Z"
     }
 ];

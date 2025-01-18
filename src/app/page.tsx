@@ -1,21 +1,26 @@
 import React from 'react';
 import { messages } from "@/TemporaryPrepPages/Messages";
-import { 
-  MessageCircle, 
-  Image as ImageIcon, 
-  Shield, 
-  Users, 
+import {
+  MessageCircle,
   Clock,
 } from "lucide-react";
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { features } from '@/TemporaryPrepPages/Features';
 
 interface FeatureCardProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -42,7 +47,7 @@ interface Message {
 }
 
 const MessageCard: React.FC<{ message: Message }> = ({ message }) => (
-  <Card className="hover:shadow-md transition-all">
+  <Card className="hover:shadow-md transition-all h-full">
     <CardContent className="pt-6">
       <div className="space-y-4">
         <div className="flex items-start space-x-4">
@@ -69,29 +74,6 @@ const MessageCard: React.FC<{ message: Message }> = ({ message }) => (
 const Page = () => {
   const year = new Date().getFullYear();
 
-  const features = [
-    {
-      icon: MessageCircle,
-      title: "Anonymous Messaging",
-      description: "Share your thoughts freely without revealing your identity"
-    },
-    {
-      icon: ImageIcon,
-      title: "Profile Reviews",
-      description: "Get honest feedback on your social media presence"
-    },
-    {
-      icon: Shield,
-      title: "Safe Environment",
-      description: "Advanced moderation to keep the community healthy"
-    },
-    {
-      icon: Users,
-      title: "Active Community",
-      description: "Join thousands of daily active users sharing their thoughts"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <main className="flex-1">
@@ -117,14 +99,22 @@ const Page = () => {
 
         <Separator className="my-8" />
 
-        {/* Messages Section */}
+        {/* Messages Carousel Section */}
         <section className="container mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold mb-8">Recent Messages</h2>
-          <div className="grid gap-6">
-            {messages.map((message) => (
-              <MessageCard key={message.id} message={message} />
-            ))}
-          </div>
+          <Carousel className="w-full">
+            <CarouselContent className="-ml-1">
+              {messages.map((message) => (
+                <CarouselItem key={message.id} className="pl-1 md:basis-1/2 lg:basis-1/3">
+                  <div className="p-1">
+                    <MessageCard message={message} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
         </section>
       </main>
 
@@ -146,4 +136,4 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: "About Page 📝",
   description: '5Chan | What is this 5Chan all about ?',
- };
+};
