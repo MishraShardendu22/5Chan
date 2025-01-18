@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect from "@/database/database.connect";
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import UserModel from "@/model/user.model";
 import bcrypt from "bcryptjs";
 
@@ -34,7 +33,7 @@ export const authOptions: NextAuthOptions = {
                     if (!isValid) {
                         throw new Error("Invalid password");
                     }
-                    return user;  // Return the user object
+                    return user as unknown as User;
                 } catch (e) {
                     console.error(e);
                     throw new Error("Something went wrong");
