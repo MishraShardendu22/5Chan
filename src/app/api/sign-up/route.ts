@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
             } else {
                 ExistingUserEmail.username = username;
                 ExistingUserEmail.password = await hashPassword(password);
-                ExistingUserEmail.verifyCode = verifyCode;
+                ExistingUserEmail.verifyCode = verifyCode.toString();
                 ExistingUserEmail.verifyCodeExpiry = calculateExpiry(12);
                 await ExistingUserEmail.save();
             }
