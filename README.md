@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 5-Chan
 
-## Getting Started
+A feedback platform where users can share and receive feedback in a safe and structured manner. Non-logged-in users can leave feedback for others, while logged-in users can receive feedback after a verification process using OTP (One-Time Password) during signup.
 
-First, run the development server:
+## Live Demo
+Check out the live demo of the project [5-Chan](https://5-chan-shardendu-mishra.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+- **Non-Logged-In Users:** Can provide feedback for other users.
+- **Logged-In Users:** Can receive feedback after completing OTP verification during signup.
+- **OTP Verification:** Ensures that only verified users can receive feedback.
+- **Username Management:** If a logged-in user is not verified, their username can be taken away.
+  
+## Tech Stack
+The platform is built using the following technologies:
+- **Frontend:** 
+  - Next.js
+  - React
+  - Tailwind CSS
+  - Embla Carousel (for showcasing feedback)
+- **Backend:**
+  - NodeMailer (for OTP-based email verification)
+  - Gemini API (for integration with LLM)
+  - ZOD (as a Schema Validation Library)
+- **Testing:**
+  - Postman (for API testing)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+Before you begin, make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/)
+- [Postman](https://www.postman.com/) (for API testing)
+  
+### Steps to Run the Application Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository to your local machine:
 
-## Learn More
+   ```bash
+   git clone https://github.com/your-username/5-chan.git
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Navigate to the project directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cd 5-chan
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Install the required dependencies:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Set up environment variables:
+   - Create a `.env` file in the root directory and configure the following environment variables:
+     - `NEXT_PUBLIC_API_URL` - API endpoint URL
+     - `NEXT_PUBLIC_GEMINI_API_KEY` - Gemini API key for LLM integration
+     - `NODEMAILER_USER` - Your NodeMailer email account
+     - `NODEMAILER_PASS` - Password for NodeMailer account
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the app on `http://localhost:3000`.
+
+6. Open the app in your browser and test the functionality.
+
+## How It Works
+
+- **Feedback Mechanism:** 
+  - Users can provide feedback on other users' profiles, even if they are not logged in.
+  - Logged-in users can view feedback only after confirming their identity via OTP.
+
+- **OTP Verification Process:**
+  - Upon signup, users will receive an OTP email.
+  - If the user fails to verify their email, their username will be temporarily removed until verified.
+
+- **LLM Integration:** 
+  - The Gemini API integrates a Language Learning Model to provide an interactive and personalized feedback experience.
+
+## Contributing
+
+We welcome contributions! If you want to contribute to this project, please fork the repository and create a pull request with a detailed description of the changes. Make sure to follow the project's coding standards.
+
+
+Thanks for checking out 5-Chan. We hope you enjoy using it!
