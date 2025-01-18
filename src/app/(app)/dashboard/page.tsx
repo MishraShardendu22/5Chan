@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 import dayjs from "dayjs";
 
 interface Message {
@@ -40,7 +40,11 @@ const Page = () => {
   const fetchMessages = async () => {
     try {
       const res = await axios.get("/api/get-message");
-      setMessages(res.data.messages || []);
+      if(res.data.messages.length === 0) {
+        setMessages([]);
+      }else{
+        setMessages(res.data.messages);
+      }
     } catch (error) {
       console.error("Error fetching messages:", error);
       toast({
@@ -82,6 +86,26 @@ const Page = () => {
       });
     }
   };
+  const handleDelete = async (messageId: string) => {
+      try {
+        const res = await axios.post("/api/delete-message", {
+          id: session?.user?._id,
+          messageId: messageId
+        });
+        toast({
+          title: "Success",
+          description: res.data.message,
+        });
+        await fetchMessages();
+      } catch (error) {
+        console.error("Error deleting message:", error);
+        toast({
+          title: "Error",
+          description: "Failed to delete message.",
+          variant: "destructive",
+        });
+      }
+    }
 
   const handleSwitch = async () => {
     setIsSwitching(true);
@@ -126,7 +150,8 @@ const Page = () => {
                 <div>
                   {dayjs(message?.createdAt).format('MMM D, YYYY h:mm A')}
                 </div>
-              </div>
+                  <button onClick={() => handleDelete(message._id)}>Delete</button>
+                </div>
             ))}
           </div>
         ) : (
