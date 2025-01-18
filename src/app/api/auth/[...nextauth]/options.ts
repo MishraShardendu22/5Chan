@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
                 token.isAcceptingMessages = user.isAcceptingMessages;
                 token.username = user.username;
             }
-            console.log("token-",token);
+            // console.log("token-",token);
             return token;
         },
         async session({ session, token }) {
@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.isAcceptingMessages = token.isAcceptingMessages;
                 session.user.username = token.username;
             }
-            console.log("session",session);
+            // console.log("session",session);
             return session;
         },
     },

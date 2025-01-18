@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(){
     try {
+        console.log("Checkpoint - 1")
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API!);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
