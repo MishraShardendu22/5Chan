@@ -21,6 +21,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { features } from '@/TemporaryPrepPages/Features';
+import Link from 'next/link';
 
 interface FeatureCardProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -97,6 +98,25 @@ const Page = () => {
           </div>
         </section>
 
+        <div className="space-x-4">
+        <Link href="/signin">
+          <Button
+            variant="default"  // Use ShadCN's default button variant
+            className="px-6 py-2 rounded-md shadow-md hover:bg-primary/80 transition-all"
+          >
+            Sign In
+          </Button>
+        </Link>
+        <Link href="/signup">
+          <Button
+            variant="secondary"  // Use ShadCN's secondary button variant
+            className="px-6 py-2 rounded-md shadow-md hover:bg-secondary/80 transition-all"
+          >
+            Sign Up
+          </Button>
+        </Link>
+      </div>
+
         <Separator className="my-8" />
 
         {/* Messages Carousel Section */}
@@ -132,6 +152,7 @@ const Page = () => {
 export default Page;
 
 import type { Metadata } from 'next';
+import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: "About Page 📝",
