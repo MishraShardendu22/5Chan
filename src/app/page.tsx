@@ -98,7 +98,7 @@ const Page = () => {
           </div>
         </section>
 
-        <div className="space-x-4">
+        <div className="space-x-4"></div>
         <div className="flex justify-center space-x-4 mt-8">
   <Link href="/sign-in">
     <Button
