@@ -5,11 +5,19 @@ A feedback platform where users can share and receive feedback in a safe and str
 ## Live Demo
 Check out the live demo of the project [5-Chan](https://5-chan-shardendu-mishra.vercel.app)
 
-## Features
+## Tech - Features
 - **Non-Logged-In Users:** Can provide feedback for other users.
 - **Logged-In Users:** Can receive feedback after completing OTP verification during signup.
 - **OTP Verification:** Ensures that only verified users can receive feedback.
 - **Username Management:** If a logged-in user is not verified, their username can be taken away.
+
+## Non-Tech Features
+- **Sample Files**: A dedicated sample file (TemporaryPrepPages) was created for practice purposes.
+- **Clean Code**: Redundancies and filler code have been minimized, resulting in a clean, efficient, and straightforward implementation.
+- **Prettier Integration**: Despite being a solo project, Prettier was set up to ensure consistent formatting throughout the codebase.
+- **Linting**: A strict linting configuration was applied to maintain code quality and consistency.
+- **Best Coding Practices**: Files are organized and separated appropriately, ensuring no clutter or mixing between models and schemas, fostering a well-structured codebase.
+
   
 ## Tech Stack
 The platform is built using the following technologies:
