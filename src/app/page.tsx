@@ -140,3 +140,10 @@ const Page = () => {
 };
 
 export default Page;
+
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "About Page 📝",
+  description: '5Chan | What is this 5Chan all about ?',
+ };

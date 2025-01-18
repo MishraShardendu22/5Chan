@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { MessageCircle, Send, RefreshCcw } from "lucide-react";
@@ -47,10 +47,6 @@ const MessagingPage = () => {
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    toast.success("Default messages loaded!");
-  }, []);
 
   const fetchMessages = async () => {
     setLoading(true);

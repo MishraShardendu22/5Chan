@@ -27,7 +27,8 @@ import {
   Lock, 
   CheckCircle2, 
   XCircle,
-  User
+  User,
+  ArrowRight
 } from 'lucide-react';
 
 import { signUpSchema } from '@/schema_zod/signUp.schema';
@@ -51,7 +52,6 @@ export default function SignUpForm() {
   });
 
   useEffect(() => {
-    // Simulate initial load
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
@@ -91,17 +91,21 @@ export default function SignUpForm() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
-        <Card className="w-full max-w-md p-6 space-y-6 bg-gray-900/60 backdrop-blur-lg border-purple-500/20">
+      <div className="flex justify-center items-center min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900 via-purple-900 to-slate-900">
+        <Card className="w-full max-w-md p-8 space-y-8 bg-black/40 backdrop-blur-xl border-purple-500/20 shadow-2xl">
           <CardHeader>
+            <Skeleton className="h-12 w-12 rounded-full mx-auto mb-6" />
             <Skeleton className="h-8 w-3/4 mx-auto mb-4" />
             <Skeleton className="h-4 w-1/2 mx-auto" />
           </CardHeader>
           <CardContent className="space-y-6">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-12 w-full" />
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-12 w-full rounded-lg" />
+              </div>
+            ))}
+            <Skeleton className="h-12 w-full rounded-lg mt-6" />
           </CardContent>
         </Card>
       </div>
@@ -109,34 +113,36 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
-      <Card className="w-full max-w-md p-6 space-y-6 bg-gray-900/60 backdrop-blur-lg border-purple-500/20">
-        <CardHeader className="text-center space-y-2">
-          <div className="flex justify-center mb-4">
-            <UserPlus className="h-12 w-12 text-purple-400" />
+    <div className="flex justify-center items-center min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900 via-purple-900 to-slate-900 p-4">
+      <Card className="w-full max-w-md p-8 space-y-8 bg-black/40 backdrop-blur-xl border-purple-500/20 shadow-2xl">
+        <CardHeader className="text-center space-y-4">
+          <div className="flex justify-center mb-6">
+            <div className="p-4 bg-purple-500/10 rounded-full ring-2 ring-purple-500/20 hover:scale-105 transition-transform">
+              <UserPlus className="h-12 w-12 text-purple-400" />
+            </div>
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-indigo-400">
+          <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400">
             Join True Feedback
           </h1>
-          <p className="text-gray-400">Begin your anonymous journey</p>
+          <p className="text-gray-400 text-lg">Begin your anonymous journey</p>
         </CardHeader>
 
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 name="username"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-200">Username</FormLabel>
-                    <div className="relative">
+                    <FormLabel className="text-gray-200 font-medium">Username</FormLabel>
+                    <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="h-4 w-4 text-gray-400" />
+                        <User className="h-5 w-5 text-gray-400 group-hover:text-purple-400 transition-colors" />
                       </div>
                       <Input
                         {...field}
-                        className="pl-10 bg-gray-800/50 border-gray-700 focus:border-purple-500"
+                        className="pl-10 h-12 bg-gray-800/50 border-gray-700 focus:border-purple-500 hover:border-purple-500/50 transition-colors"
                         onChange={(e) => {
                           field.onChange(e);
                           setUsername(e.target.value);
@@ -144,12 +150,12 @@ export default function SignUpForm() {
                       />
                     </div>
                     {isCheckingUsername ? (
-                      <div className="flex items-center gap-2 text-gray-400">
+                      <div className="flex items-center gap-2 text-gray-400 mt-2">
                         <Loader2 className="h-4 w-4 animate-spin" />
                         <span className="text-sm">Checking availability...</span>
                       </div>
                     ) : usernameMessage && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 mt-2">
                         {usernameMessage === 'Username is unique' ? (
                           <>
                             <CheckCircle2 className="h-4 w-4 text-green-500" />
@@ -173,17 +179,17 @@ export default function SignUpForm() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-200">Email</FormLabel>
-                    <div className="relative">
+                    <FormLabel className="text-gray-200 font-medium">Email</FormLabel>
+                    <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Mail className="h-4 w-4 text-gray-400" />
+                        <Mail className="h-5 w-5 text-gray-400 group-hover:text-purple-400 transition-colors" />
                       </div>
                       <Input
                         {...field}
-                        className="pl-10 bg-gray-800/50 border-gray-700 focus:border-purple-500"
+                        className="pl-10 h-12 bg-gray-800/50 border-gray-700 focus:border-purple-500 hover:border-purple-500/50 transition-colors"
                       />
                     </div>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-gray-400 mt-2">
                       We&apos;ll send you a verification code
                     </p>
                     <FormMessage />
@@ -196,15 +202,15 @@ export default function SignUpForm() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-gray-200">Password</FormLabel>
-                    <div className="relative">
+                    <FormLabel className="text-gray-200 font-medium">Password</FormLabel>
+                    <div className="relative group">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-4 w-4 text-gray-400" />
+                        <Lock className="h-5 w-5 text-gray-400 group-hover:text-purple-400 transition-colors" />
                       </div>
                       <Input
                         type="password"
                         {...field}
-                        className="pl-10 bg-gray-800/50 border-gray-700 focus:border-purple-500"
+                        className="pl-10 h-12 bg-gray-800/50 border-gray-700 focus:border-purple-500 hover:border-purple-500/50 transition-colors"
                       />
                     </div>
                     <FormMessage />
@@ -214,16 +220,19 @@ export default function SignUpForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all duration-200"
+                className="w-full h-12 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600 hover:from-purple-700 hover:via-fuchsia-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-purple-500/20 text-base font-medium"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     Creating account...
                   </>
                 ) : (
-                  'Create Account'
+                  <>
+                    Create Account
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </>
                 )}
               </Button>
             </form>
@@ -231,13 +240,14 @@ export default function SignUpForm() {
         </CardContent>
 
         <CardFooter className="text-center">
-          <p className="text-gray-400 w-full">
+          <p className="text-gray-400 w-full text-base">
             Already a member?{' '}
             <Link
               href="/sign-in"
-              className="text-purple-400 hover:text-purple-300 transition-colors"
+              className="text-purple-400 hover:text-purple-300 font-medium transition-colors inline-flex items-center gap-1 hover:gap-2"
             >
               Sign in
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </p>
         </CardFooter>

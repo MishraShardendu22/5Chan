@@ -5,6 +5,8 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
+
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -13,9 +15,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   );
 }
 
-import type { Metadata } from 'next';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "What people think about you?",
-  description: '5Chan | What people say about you, when no you arent there ,Share the link and find out !!',
- };
+  title: `Write Anonymously 🤫`,
+  description: '5Chan | Write all about Friends and Family what you never could say in person !!',
+};

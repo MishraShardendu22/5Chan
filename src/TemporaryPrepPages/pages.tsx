@@ -1,4 +1,3 @@
-// import type { Metadata } from 'next';
 // import React from 'react'
 
 // const page = async () => {
@@ -15,6 +14,8 @@
 // export default page
 
 // // Meta Data and Title Optimisation
+
+// import type { Metadata } from 'next';
 
 // export const metadata: Metadata = {
 //   title: "About Page ",
