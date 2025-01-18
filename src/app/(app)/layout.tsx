@@ -1,11 +1,11 @@
-import React from 'react'
-
-const layout = () => {
-  return (
-    <div>
-      
-    </div>
-  )
+interface RootLayoutProps {
+  children: React.ReactNode;
 }
 
-export default layout
+export default async function RootLayout({ children }: RootLayoutProps) {
+  return (
+    <div className="flex flex-col min-h-screen">
+      {children}
+    </div>
+  );
+}
