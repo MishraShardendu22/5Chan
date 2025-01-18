@@ -6,7 +6,6 @@ import {
   Shield, 
   Users, 
   Clock,
-  ChevronRight 
 } from "lucide-react";
 import { 
   Card, 
@@ -15,7 +14,6 @@ import {
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 
@@ -105,10 +103,6 @@ const Page = () => {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Anonymous Messaging | Profile Image Review | Sometimes Roasting, Sometimes Toasting
           </p>
-          <Button size="lg" className="mt-6">
-            Get Started
-            <ChevronRight className="w-4 h-4 ml-2" />
-          </Button>
         </section>
 
         {/* Features Grid */}

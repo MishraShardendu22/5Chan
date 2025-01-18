@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import { uniqueNamesGenerator, Config, adjectives, colors, animals } from 'unique-names-generator';
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/components/ui/use-toast";
@@ -8,19 +9,13 @@ import dayjs from "dayjs";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Switch } from "@/components/ui/switch";
-import { 
-  Copy, 
-  Trash2, 
-  MessageSquare, 
-  Link as LinkIcon,
-  Bell,
-  BellOff
-} from "lucide-react";
 import {
-  Alert,
-  AlertDescription,
-} from "@/components/ui/alert";
+  Copy,
+  Trash2,
+  MessageSquare,
+  Link as LinkIcon,
+} from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface Message {
   _id: string;
@@ -43,18 +38,110 @@ const MessageSkeleton = () => (
   </div>
 );
 
+const PaginationControls = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}) => (
+  <div className="flex items-center justify-between mt-4">
+    <Button
+      variant="outline"
+      size="sm"
+      disabled={currentPage === 1}
+      onClick={() => onPageChange(currentPage - 1)}
+    >
+      Previous
+    </Button>
+    <span className="text-sm text-muted-foreground">
+      Page {currentPage} of {totalPages}
+    </span>
+    <Button
+      variant="outline"
+      size="sm"
+      disabled={currentPage === totalPages}
+      onClick={() => onPageChange(currentPage + 1)}
+    >
+      Next
+    </Button>
+  </div>
+);
+
+const MessageList = ({
+  messages,
+  currentPage,
+  onPageChange,
+  handleDelete,
+}: {
+  messages: Message[];
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  handleDelete: (messageId: string) => void;
+}) => {
+  const messagesPerPage = 3;
+  const startIndex = (currentPage - 1) * messagesPerPage;
+  const paginatedMessages = messages.slice(startIndex, startIndex + messagesPerPage);
+
+  const customConfig: Config = {
+    dictionaries: [adjectives, colors, animals],
+    separator: '-',
+    length: 3,
+  };
+
+  return (
+    <div>
+      {paginatedMessages.length > 0 ? (
+        <div className="space-y-4">
+          {paginatedMessages.map((message) => (
+            <Card key={message._id} className="group hover:shadow-md transition-shadow">
+              <CardContent className="pt-6">
+                <div className="space-y-2">
+                  <p className="text-sm leading-relaxed">Message by : <strong>{uniqueNamesGenerator(customConfig)}</strong></p>
+                  <p className="text-lg leading-relaxed">{message.content}</p>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{dayjs(message?.createdAt).format("MMM D, YYYY h:mm A")}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDelete(message._id)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <Trash2 className="w-4 h-4 text-destructive" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={Math.ceil(messages.length / messagesPerPage)}
+            onPageChange={onPageChange}
+          />
+        </div>
+      ) : (
+        <Alert>
+          <AlertDescription>No messages available.</AlertDescription>
+        </Alert>
+      )}
+    </div>
+  );
+};
+
 const Page = () => {
   const [messages, setMessages] = useState<Message[] | null>(null);
-  const [accept, setAccept] = useState(true);
+
   const [loading, setLoading] = useState(true);
-  const [isSwitching, setIsSwitching] = useState(false);
   const [profileUrl, setProfileUrl] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { toast } = useToast();
   const { data: session } = useSession();
   const username = session?.user?.username || "unknown";
 
-  // Existing useEffect and function implementations remain the same
   useEffect(() => {
     const baseUrl = `${window.location.protocol}//${window.location.host}`;
     setProfileUrl(`${baseUrl}/u/${username}`);
@@ -63,7 +150,6 @@ const Page = () => {
   useEffect(() => {
     const initialize = async () => {
       await fetchMessages();
-      await fetchAccept();
       setLoading(false);
     };
     initialize();
@@ -72,11 +158,7 @@ const Page = () => {
   const fetchMessages = async () => {
     try {
       const res = await axios.get("/api/get-message");
-      if(res.data.messages.length === 0) {
-        setMessages([]);
-      }else{
-        setMessages(res.data.messages);
-      }
+      setMessages(res.data.messages || []);
     } catch (error) {
       console.error("Error fetching messages:", error);
       toast({
@@ -88,19 +170,6 @@ const Page = () => {
     }
   };
 
-  const fetchAccept = async () => {
-    try {
-      const res = await axios.get("/api/accept-message");
-      setAccept(res.data.accept);
-    } catch (error) {
-      console.error("Error fetching accept status:", error);
-      toast({
-        title: "Error",
-        description: "Failed to fetch accept status.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const copyToClipBoard = async () => {
     try {
@@ -123,7 +192,7 @@ const Page = () => {
     try {
       const res = await axios.post("/api/delete-message", {
         id: session?.user?._id,
-        messageId: messageId
+        messageId: messageId,
       });
       toast({
         title: "Success",
@@ -140,25 +209,8 @@ const Page = () => {
     }
   };
 
-  const handleSwitch = async () => {
-    setIsSwitching(true);
-    try {
-      const res = await axios.post("/api/accept-message", { accept: !accept });
-      setAccept(res.data.accept);
-      toast({
-        title: "Success",
-        description: `Messages ${!accept ? "enabled" : "disabled"}.`,
-      });
-    } catch (error) {
-      console.error("Error switching accept status:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update status.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSwitching(false);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -169,36 +221,15 @@ const Page = () => {
             <MessageSquare className="w-5 h-5" />
             <span>Message Dashboard</span>
           </CardTitle>
-          
-          <div className="space-y-4">
-            {/* Profile URL Section */}
-            <div className="flex items-center space-x-2 p-3 bg-secondary/50 rounded-lg">
-              <LinkIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-              <p className="text-sm text-muted-foreground truncate flex-1">{profileUrl}</p>
-              <Button variant="outline" size="sm" onClick={copyToClipBoard}>
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
-              </Button>
-            </div>
 
-            {/* Message Toggle Section */}
-            <div className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg">
-              <div className="flex items-center space-x-2">
-                {accept ? (
-                  <Bell className="w-4 h-4 text-primary" />
-                ) : (
-                  <BellOff className="w-4 h-4 text-muted-foreground" />
-                )}
-                <span className="text-sm font-medium">
-                  {accept ? "Messages Enabled" : "Messages Disabled"}
-                </span>
-              </div>
-              <Switch
-                checked={accept}
-                onCheckedChange={handleSwitch}
-                disabled={isSwitching}
-              />
-            </div>
+          {/* Profile URL Section */}
+          <div className="flex items-center space-x-2 p-3 bg-secondary/50 rounded-lg">
+            <LinkIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            <p className="text-sm text-muted-foreground truncate flex-1">{profileUrl}</p>
+            <Button variant="outline" size="sm" onClick={copyToClipBoard}>
+              <Copy className="w-4 h-4 mr-2" />
+              Copy
+            </Button>
           </div>
         </CardHeader>
       </Card>
@@ -206,37 +237,18 @@ const Page = () => {
       {/* Messages Section */}
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Recent Messages</h2>
-        
         {loading ? (
           <MessageSkeleton />
         ) : messages && messages.length > 0 ? (
-          <div className="space-y-4">
-            {messages.map((message) => (
-              <Card key={message._id} className="group hover:shadow-md transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="space-y-2">
-                    <p className="text-sm leading-relaxed">{message.content}</p>
-                    <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <span>{dayjs(message?.createdAt).format('MMM D, YYYY h:mm A')}</span>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => handleDelete(message._id)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <Trash2 className="w-4 h-4 text-destructive" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <MessageList
+            messages={messages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            handleDelete={handleDelete}
+          />
         ) : (
           <Alert>
-            <AlertDescription>
-              No messages available.
-            </AlertDescription>
+            <AlertDescription>No messages available.</AlertDescription>
           </Alert>
         )}
       </div>
