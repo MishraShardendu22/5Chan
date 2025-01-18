@@ -13,11 +13,14 @@ Check out the live demo of the project [5-Chan](https://5-chan-shardendu-mishra.
 - **Username Management:** If a logged-in user is not verified, their username can be taken away.
 
 ## Non-Tech Features
-- **Sample Files**: A dedicated sample file (TemporaryPrepPages) was created for practice purposes.
-- **Clean Code**: Redundancies and filler code have been minimized, resulting in a clean, efficient, and straightforward implementation.
-- **Prettier Integration**: Despite being a solo project, Prettier was set up to ensure consistent formatting throughout the codebase.
-- **Linting**: A strict linting configuration was applied to maintain code quality and consistency.
-- **Best Coding Practices**: Files are organized and separated appropriately, ensuring no clutter or mixing between models and schemas, fostering a well-structured codebase.
+- **Server-Side Rendering**: Leveraged Next.js best practices for server-side rendering, optimizing performance and SEO by serving static files and enhancing crawler indexing.  
+- **Best Coding Practices**: The project follows a well-structured codebase with clear separation between models and schemas, ensuring organization and eliminating clutter.
+- **Search Engine Optimization (SEO)**: Enhanced SEO by customizing metadata, including page titles and descriptions, to improve search engine visibility and ranking.
+- **Prettier Integration**: Prettier has been integrated to enforce consistent code formatting, ensuring readability and uniformity throughout the project.  
+- **Linting**: A robust linting configuration was implemented to maintain code quality, catch errors early, and enforce best practices across the project.
+- **Clean Code**: All redundant and unnecessary code has been removed, ensuring a clean, efficient, and straightforward codebase.  
+- **Sample Files**: A sample file (TemporaryPrepPages) was created to provide a practice resource and facilitate learning.  
+
 
   
 ## Tech Stack
