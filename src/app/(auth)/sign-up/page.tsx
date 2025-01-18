@@ -122,7 +122,7 @@ export default function SignUpForm() {
             </div>
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-fuchsia-400 to-indigo-400">
-            Join True Feedback
+            Join 5 Chan
           </h1>
           <p className="text-gray-400 text-lg">Begin your anonymous journey</p>
         </CardHeader>
