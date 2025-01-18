@@ -69,7 +69,7 @@ export default function SignInForm() {
             <div className="space-y-2">
               <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
               <CardDescription className="text-base">
-                Sign in to True Feedback to continue your secret conversations
+                Sign in to 5Chan to continue your secret conversations
               </CardDescription>
             </div>
           </CardHeader>
