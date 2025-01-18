@@ -2,11 +2,28 @@
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import { MessageCircle, Send, RefreshCcw } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
+
+const MessageSkeleton = () => (
+  <div className="space-y-2">
+    {[1, 2, 3].map((i) => (
+      <Card key={i} className="p-4 bg-muted/50">
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[80%]" />
+          <Skeleton className="h-4 w-[60%]" />
+        </div>
+      </Card>
+    ))}
+  </div>
+);
 
 const MessagingPage = () => {
   const specialChar = "||";
-
-  // Helper function to parse the response messages
   const parseStringMessages = (messageString: string): string[] => {
     return messageString.split(specialChar);
   };
@@ -55,66 +72,83 @@ const MessagingPage = () => {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>Welcome to 5Chan Random User !!</h1>
-      <p>
-        Leave a message for <strong>{username}</strong>
-      </p>
+    <div className="container mx-auto p-6 max-w-3xl">
+      <Card className="bg-card">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-2xl font-bold">
+            <MessageCircle className="w-6 h-6" />
+            5Chan Random User
+          </CardTitle>
+          <CardDescription className="text-lg">
+            Leave a message for <span className="font-semibold text-primary">{username}</span>
+          </CardDescription>
+        </CardHeader>
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        <CardContent className="space-y-6">
+          {/* Refresh Button */}
+          <Button
+            onClick={fetchMessages}
+            disabled={loading}
+            variant="outline"
+            className="w-full"
+          >
+            <RefreshCcw className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`} />
+            Get Message Suggestions
+          </Button>
 
-      <button
-        onClick={fetchMessages}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#007bff",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          marginBottom: "20px",
-        }}
-        disabled={loading}
-      />
+          {/* Error Alert */}
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
-      {/* Message List */}
-      <div style={{ marginBottom: "20px" }}>
-        <h2>Suggested Messages:</h2>
-        <ul>
-          {messages.map((msg, index) => (
-            <li key={index} style={{ marginBottom: "10px" }}>
-              {msg}
-            </li>
-          ))}
-        </ul>
-      </div>
+          {/* Message List with Skeleton Loading */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">Suggested Messages:</h2>
+            {loading ? (
+              <MessageSkeleton />
+            ) : (
+              <div className="space-y-2">
+                {messages.map((msg, index) => (
+                  <Card key={index} className="p-4 bg-muted/50">
+                    <p className="text-sm">{msg}</p>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
 
-      {/* Message Input */}
-      <div style={{ marginBottom: "20px" }}>
-        <textarea
-          placeholder="Type your message here..."
-          value={messageSent}
-          onChange={(e) => setMessageSent(e.target.value)}
-          rows={4}
-          style={{ width: "100%", padding: "10px" }}
-        ></textarea>
-        <button
-          onClick={sendMessage}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            marginTop: "10px",
-          }}
-          disabled={loading}
-        >
-          Send Message
-        </button>
-      </div>
+          {/* Message Input */}
+          <div className="space-y-4">
+            {loading ? (
+              <Skeleton className="w-full h-[120px] rounded-md" />
+            ) : (
+              <Textarea
+                placeholder="Type your message here..."
+                value={messageSent}
+                onChange={(e) => setMessageSent(e.target.value)}
+                className="min-h-[120px]"
+              />
+            )}
+          </div>
+        </CardContent>
+
+        <CardFooter>
+          <Button
+            onClick={sendMessage}
+            disabled={loading || !messageSent.trim()}
+            className="w-full"
+          >
+            {loading ? (
+              <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Send className="w-4 h-4 mr-2" />
+            )}
+            Send Message
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 };

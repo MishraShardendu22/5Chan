@@ -1,16 +1,47 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useToast } from "@/components/ui/use-toast";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import dayjs from "dayjs";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Switch } from "@/components/ui/switch";
+import { 
+  Copy, 
+  Trash2, 
+  MessageSquare, 
+  Link as LinkIcon,
+  Bell,
+  BellOff
+} from "lucide-react";
+import {
+  Alert,
+  AlertDescription,
+} from "@/components/ui/alert";
 
 interface Message {
   _id: string;
   content: string;
   createdAt: string;
 }
+
+const MessageSkeleton = () => (
+  <div className="space-y-4">
+    {[1, 2, 3].map((i) => (
+      <Card key={i}>
+        <CardContent className="pt-6">
+          <div className="space-y-3">
+            <Skeleton className="h-4 w-[90%]" />
+            <Skeleton className="h-4 w-[40%]" />
+          </div>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+);
 
 const Page = () => {
   const [messages, setMessages] = useState<Message[] | null>(null);
@@ -23,6 +54,7 @@ const Page = () => {
   const { data: session } = useSession();
   const username = session?.user?.username || "unknown";
 
+  // Existing useEffect and function implementations remain the same
   useEffect(() => {
     const baseUrl = `${window.location.protocol}//${window.location.host}`;
     setProfileUrl(`${baseUrl}/u/${username}`);
@@ -86,26 +118,27 @@ const Page = () => {
       });
     }
   };
+
   const handleDelete = async (messageId: string) => {
-      try {
-        const res = await axios.post("/api/delete-message", {
-          id: session?.user?._id,
-          messageId: messageId
-        });
-        toast({
-          title: "Success",
-          description: res.data.message,
-        });
-        await fetchMessages();
-      } catch (error) {
-        console.error("Error deleting message:", error);
-        toast({
-          title: "Error",
-          description: "Failed to delete message.",
-          variant: "destructive",
-        });
-      }
+    try {
+      const res = await axios.post("/api/delete-message", {
+        id: session?.user?._id,
+        messageId: messageId
+      });
+      toast({
+        title: "Success",
+        description: res.data.message,
+      });
+      await fetchMessages();
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete message.",
+        variant: "destructive",
+      });
     }
+  };
 
   const handleSwitch = async () => {
     setIsSwitching(true);
@@ -129,33 +162,82 @@ const Page = () => {
   };
 
   return (
-    <div>
-      <div>
-        <p>{profileUrl}</p>
-        <button onClick={copyToClipBoard}>Copy</button>
-      </div>
-      <div>
-        <button onClick={handleSwitch} disabled={isSwitching}>
-          {accept ? "Disable" : "Enable"}
-        </button>
-      </div>
-      <div>
+    <div className="container mx-auto p-4 max-w-4xl space-y-6">
+      <Card>
+        <CardHeader className="space-y-6">
+          <CardTitle className="flex items-center space-x-2">
+            <MessageSquare className="w-5 h-5" />
+            <span>Message Dashboard</span>
+          </CardTitle>
+          
+          <div className="space-y-4">
+            {/* Profile URL Section */}
+            <div className="flex items-center space-x-2 p-3 bg-secondary/50 rounded-lg">
+              <LinkIcon className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+              <p className="text-sm text-muted-foreground truncate flex-1">{profileUrl}</p>
+              <Button variant="outline" size="sm" onClick={copyToClipBoard}>
+                <Copy className="w-4 h-4 mr-2" />
+                Copy
+              </Button>
+            </div>
+
+            {/* Message Toggle Section */}
+            <div className="flex items-center justify-between p-3 bg-secondary/50 rounded-lg">
+              <div className="flex items-center space-x-2">
+                {accept ? (
+                  <Bell className="w-4 h-4 text-primary" />
+                ) : (
+                  <BellOff className="w-4 h-4 text-muted-foreground" />
+                )}
+                <span className="text-sm font-medium">
+                  {accept ? "Messages Enabled" : "Messages Disabled"}
+                </span>
+              </div>
+              <Switch
+                checked={accept}
+                onCheckedChange={handleSwitch}
+                disabled={isSwitching}
+              />
+            </div>
+          </div>
+        </CardHeader>
+      </Card>
+
+      {/* Messages Section */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Recent Messages</h2>
+        
         {loading ? (
-          <div>Loading...</div>
+          <MessageSkeleton />
         ) : messages && messages.length > 0 ? (
-          <div>
+          <div className="space-y-4">
             {messages.map((message) => (
-              <div key={message._id}>
-                <p>{message.content}</p>
-                <div>
-                  {dayjs(message?.createdAt).format('MMM D, YYYY h:mm A')}
-                </div>
-                  <button onClick={() => handleDelete(message._id)}>Delete</button>
-                </div>
+              <Card key={message._id} className="group hover:shadow-md transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="space-y-2">
+                    <p className="text-sm leading-relaxed">{message.content}</p>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{dayjs(message?.createdAt).format('MMM D, YYYY h:mm A')}</span>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => handleDelete(message._id)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 className="w-4 h-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         ) : (
-          <div>No messages available.</div>
+          <Alert>
+            <AlertDescription>
+              No messages available.
+            </AlertDescription>
+          </Alert>
         )}
       </div>
     </div>
