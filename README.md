@@ -1,10 +1,8 @@
-# [5-Chan](https://5-chan-shardendu-mishra.vercel.app)
-
+## 5-Chan Live Demo
+### Check out the live demo of the project [5-Chan](https://5-chan-shardendu-mishra.vercel.app)
+### Check out a video of the project [YouTube Video](https://youtu.be/FIjMpPrWSkM)
 
 A feedback platform where users can share and receive feedback in a safe and structured manner. Non-logged-in users can leave feedback for others, while logged-in users can receive feedback after a verification process using OTP (One-Time Password) during signup.
-
-## Live Demo
-Check out the live demo of the project [5-Chan](https://5-chan-shardendu-mishra.vercel.app)
 
 ## Tech - Features
 - **Non-Logged-In Users:** Can provide feedback for other users.
