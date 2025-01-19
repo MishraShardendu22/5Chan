@@ -31,6 +31,8 @@ The platform is built using the following technologies:
   - Tailwind CSS
   - Embla Carousel (for showcasing feedback)
 - **Backend:**
+  - Node.js
+  - npm (package installer)
   - NodeMailer (for OTP-based email verification)
   - Gemini API (for integration with LLM)
   - ZOD (as a Schema Validation Library)
