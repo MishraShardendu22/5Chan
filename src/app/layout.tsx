@@ -41,7 +41,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             <div className="flex flex-col items-center">
               <span className="text-xs text-gray-300 mb-1">Scan QR to support</span>
               <Link href="https://monadpe.vercel.app/pay/48b206bf-837e-4c40-a3a2-55e3d6964b2f?merchant=0x2Ec66F3a1F879d985b23b7f66FA49B42D51C417e&amount=0.01&token=0x0000000000000000000000000000000000000000&tokenSymbol=MON" target="_blank" rel="noopener noreferrer">
-                <Image src="/qr.jpeg" alt="Scan QR to support" width={80} height={80} className="rounded-lg shadow-md border border-gray-600" />
+                <Image src="/qr.jpeg" alt="Scan QR to support" width={120} height={120} className="rounded-lg shadow-md border border-gray-600" />
               </Link>
             </div>
           </div>
